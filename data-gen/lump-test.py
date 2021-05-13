@@ -9,7 +9,7 @@ from PIL import Image, ImageDraw
 def drawmap(wad, width, format):
     xsize = width - 8
 
-    i = 77
+    i = 487
     for level in wad.maps:
         edit = MapEditor(wad.maps[level])
         xmin = ymin = 32767
