@@ -1,0 +1,15 @@
+FROM tensorflow/tensorflow:2.5.0-gpu
+
+RUN apt-get update
+RUN apt-get install ffmpeg libsm6 libxext6  -y
+RUN apt-get install -y wget && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+COPY map_images/ map_images/
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+COPY *.py ./
+
+ENTRYPOINT ["python", "train.py"]

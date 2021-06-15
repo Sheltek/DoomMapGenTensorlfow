@@ -1,16 +1,9 @@
-import glob
-import time
+import os
 
-import cv2
-import imageio
 import matplotlib.pyplot as plt
 import numpy as np
-import os
-import PIL
 import tensorflow as tf
 from tensorflow.keras import layers
-from IPython import display
-import pathlib
 
 from tensorflow.python.keras import Input
 from tensorflow.python.keras.models import Model
@@ -101,12 +94,23 @@ class DCGAN:
         model.add(layers.Conv2D(
             filters=128, kernel_size=3, strides=(2, 2), activation="relu"
         ))
+
+        model.add(layers.LeakyReLU())
+        model.add(layers.Dropout(0.3))
+
         model.add(layers.Conv2D(
             filters=256, kernel_size=3, strides=(2, 2), activation="relu"
         ))
+
+        model.add(layers.LeakyReLU())
+        model.add(layers.Dropout(0.3))
+
         model.add(layers.Conv2D(
             filters=512, kernel_size=3, strides=(2, 2), activation="relu"
         ))
+        model.add(layers.LeakyReLU())
+        model.add(layers.Dropout(0.3))
+
         model.add(layers.Conv2D(
             filters=1024, kernel_size=3, strides=(2, 2), activation="relu"
         ))
@@ -190,5 +194,7 @@ class DCGAN:
             plt.imshow(predictions[i, :, :, 0], cmap='gray')
             plt.axis('off')
         # 3 - Save the generated images
+        if not os.path.exists('images'):
+            os.mkdir('images')
         fig.savefig("images/map_%d.png" % epoch)
         plt.close()
